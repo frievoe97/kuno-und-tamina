@@ -13,7 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const SONG_URL = "/Kumina.mp3";
+const SONG_URL = `${import.meta.env.BASE_URL}Kumina.mp3`;
 const EQUALIZER_BARS = 32;
 
 function formatTime(seconds: number) {
