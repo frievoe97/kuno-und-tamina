@@ -39,7 +39,12 @@ export default function App() {
   const [hasLiveVisualizer, setHasLiveVisualizer] = useState(true);
   const [audioError, setAudioError] = useState(false);
   const reduceMotion = useReducedMotion();
-  const activeLyricIndex = LYRICS.findIndex((line) => currentTime >= line.start && currentTime < line.end);
+  const activeLyricIndex = LYRICS.findIndex((line, index) => {
+    const nextLine = LYRICS[index + 1];
+    const hasLongPause = nextLine && nextLine.start - line.end >= 10;
+    const visibleUntil = nextLine && !hasLongPause ? nextLine.start : line.end;
+    return currentTime >= line.start && currentTime < visibleUntil;
+  });
   const visibleLyrics = activeLyricIndex >= 0
     ? LYRICS.slice(Math.max(0, activeLyricIndex - 1), Math.min(LYRICS.length, activeLyricIndex + 2))
     : [];
@@ -222,7 +227,7 @@ export default function App() {
   }
 
   return (
-    <main className="relative isolate flex min-h-svh items-center justify-center overflow-hidden px-5 py-12 text-ink">
+    <main className="relative isolate flex min-h-svh items-start justify-center overflow-x-hidden px-3 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(4rem,env(safe-area-inset-bottom))] text-ink sm:items-center sm:px-5 sm:py-12">
       <div className="paper-grain pointer-events-none absolute inset-0 -z-10" />
       <div className="orb orb-one pointer-events-none absolute -left-32 -top-36 -z-10 size-96 rounded-full" />
       <div className="orb orb-two pointer-events-none absolute -bottom-48 -right-32 -z-10 size-[32rem] rounded-full" />
@@ -231,7 +236,7 @@ export default function App() {
       <Sparkles className="confetti absolute bottom-[17%] right-[11%] size-5 text-wine/25" aria-hidden="true" />
 
       <motion.article
-        className="gift-card relative w-full max-w-[650px] rounded-[5px] border border-white/80 px-6 py-9 text-center shadow-2xl shadow-[#573a2e]/10 sm:px-14 sm:py-11"
+        className="gift-card relative w-full max-w-[650px] rounded-[5px] border border-white/80 px-4 py-7 text-center shadow-2xl shadow-[#573a2e]/10 sm:px-14 sm:py-11"
         initial={reduceMotion ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}
@@ -413,7 +418,7 @@ export default function App() {
         </div>
       </motion.article>
 
-      <p className="absolute bottom-5 px-4 text-center text-[10px] tracking-[0.08em] text-[#786d67] uppercase">
+      <p className="pointer-events-none absolute bottom-[max(0.75rem,env(safe-area-inset-bottom))] hidden px-4 text-center text-[10px] tracking-[0.08em] text-[#786d67] uppercase sm:block">
         Mit Liebe aufgenommen · Für immer auf Repeat
       </p>
     </main>
