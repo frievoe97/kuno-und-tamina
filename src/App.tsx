@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import WaveSurfer from "wavesurfer.js";
+import { LYRICS } from "./lyrics";
 import {
   ArrowDownToLine,
   AudioLines,
@@ -38,6 +39,10 @@ export default function App() {
   const [hasLiveVisualizer, setHasLiveVisualizer] = useState(true);
   const [audioError, setAudioError] = useState(false);
   const reduceMotion = useReducedMotion();
+  const activeLyricIndex = LYRICS.findIndex((line) => currentTime >= line.start && currentTime < line.end);
+  const visibleLyrics = activeLyricIndex >= 0
+    ? LYRICS.slice(Math.max(0, activeLyricIndex - 1), Math.min(LYRICS.length, activeLyricIndex + 2))
+    : [];
 
   useEffect(() => {
     if (!waveformRef.current) return;
@@ -320,6 +325,39 @@ export default function App() {
             <ArrowDownToLine size={17} strokeWidth={1.8} aria-hidden="true" />
             Song herunterladen
           </a>
+
+          <section className="lyrics-panel mt-5 overflow-hidden rounded-md border border-[#eadfd6] px-4 py-4 text-center" aria-label="Live-Liedtext">
+            <p className="mb-3 text-[9px] font-bold tracking-[0.16em] text-wine uppercase">Live-Liedtext</p>
+            {LYRICS.length === 0 ? (
+              <p className="py-2 font-display text-sm italic leading-6 text-muted">
+                Der Liedtext wird hier beim Abspielen synchron angezeigt.
+              </p>
+            ) : visibleLyrics.length > 0 ? (
+              <div className="lyrics-lines" aria-live="off">
+                {visibleLyrics.map((line, index) => {
+                  const lineIndex = Math.max(0, activeLyricIndex - 1) + index;
+                  const isActive = lineIndex === activeLyricIndex;
+                  return (
+                    <motion.p
+                      key={`${line.start}-${line.text}`}
+                      layout
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={{ opacity: isActive ? 1 : 0.42, y: 0, scale: isActive ? 1 : 0.96 }}
+                      transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                      className={`font-display leading-7 ${isActive ? "text-[18px] text-ink sm:text-xl" : "text-[14px] text-muted"}`}
+                    >
+                      {line.words.map((word, wordIndex) => {
+                        const isWordActive = isActive && currentTime >= word.start && currentTime < word.end;
+                        return <span key={`${word.start}-${wordIndex}`} className={isWordActive ? "lyric-word-active" : ""}>{word.text}{wordIndex < line.words.length - 1 ? " " : ""}</span>;
+                      })}
+                    </motion.p>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="py-2 font-display text-sm italic leading-6 text-muted">♫</p>
+            )}
+          </section>
         </section>
 
         <section className="letter-section mt-5 overflow-hidden rounded-[5px] border border-[#eadfd6] bg-[#fffaf6] text-left">

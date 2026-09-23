@@ -96,6 +96,24 @@ input {
   background: linear-gradient(110deg, rgb(243 229 226 / 72%), rgb(255 250 246 / 95%));
 }
 
+.lyrics-panel {
+  min-height: 132px;
+  background: linear-gradient(145deg, #fffdf9, #fbf3ef);
+}
+
+.lyrics-lines {
+  display: grid;
+  gap: 5px;
+  min-height: 65px;
+  align-content: center;
+}
+
+.lyric-word-active {
+  color: #9b3e51;
+  text-shadow: 0 0 18px rgb(155 62 81 / 20%);
+  animation: lyric-glow 0.5s ease-out both;
+}
+
 .letter-paper {
   border: 1px solid rgb(234 223 214 / 75%);
   background: linear-gradient(140deg, #fffdf9, #fbf3ec);
@@ -171,6 +189,11 @@ input {
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(-7deg); }
   50% { transform: translateY(-8px) rotate(7deg); }
+}
+
+@keyframes lyric-glow {
+  from { opacity: 0.58; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
