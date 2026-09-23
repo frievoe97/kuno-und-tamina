@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #302724;
+  --color-muted: #82766f;
+  --color-wine: #9b3e51;
+  --color-wine-dark: #783044;
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+}
+
+:root {
+  color-scheme: light;
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f7f3ed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.paper-grain {
+  opacity: 0.28;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.12' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.orb-one {
+  background: radial-gradient(circle, rgb(224 197 181 / 45%), transparent 70%);
+}
+
+.orb-two {
+  background: radial-gradient(circle, rgb(199 147 148 / 31%), transparent 70%);
+}
+
+.gift-card {
+  background: rgb(255 253 249 / 95%);
+  box-shadow: 0 24px 80px rgb(85 54 43 / 11%), 0 3px 10px rgb(85 54 43 / 4%);
+}
+
+.heart-seal {
+  background: radial-gradient(circle, #f3e5e2 0%, #f3e5e2 47%, transparent 49%);
+}
+
+.names,
+.song-title,
+.dedication-text {
+  font-family: var(--font-display);
+}
+
+.names {
+  font-weight: 600;
+}
+
+.ampersand {
+  color: #9b3e51;
+  font-size: 0.62em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.song-panel {
+  background: #fffaf6;
+}
+
+.waveform-shell {
+  min-height: 76px;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.waveform-shell:focus-visible {
+  outline: 2px solid #9b3e51;
+  outline-offset: 3px;
+}
+
+.waveform-shell canvas {
+  display: block;
+}
+
+.visualizer-wrap {
+  background: linear-gradient(110deg, rgb(243 229 226 / 72%), rgb(255 250 246 / 95%));
+}
+
+.letter-paper {
+  border: 1px solid rgb(234 223 214 / 75%);
+  background: linear-gradient(140deg, #fffdf9, #fbf3ec);
+  box-shadow: inset 0 1px rgb(255 255 255 / 80%);
+}
+
+.record-disc.is-spinning {
+  animation: spin 4s linear infinite;
+}
+
+.progress-slider {
+  height: 16px;
+  appearance: none;
+  background: transparent;
+}
+
+.progress-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #9b3e51 var(--progress), #e8dad2 var(--progress));
+}
+
+.progress-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: #e8dad2;
+}
+
+.progress-slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: #9b3e51;
+}
+
+.progress-slider::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  appearance: none;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #9b3e51;
+  box-shadow: 0 0 0 1px #9b3e51;
+}
+
+.progress-slider::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #9b3e51;
+  box-shadow: 0 0 0 1px #9b3e51;
+}
+
+.progress-slider:focus-visible {
+  outline: 2px solid #9b3e51;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.confetti {
+  animation: float 5s ease-in-out infinite;
+}
+
+.confetti:nth-of-type(2) {
+  animation-delay: -2.5s;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-7deg); }
+  50% { transform: translateY(-8px) rotate(7deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
